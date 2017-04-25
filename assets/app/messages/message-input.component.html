@@ -1,0 +1,19 @@
+<div class="col-md-8 col-md-offset-2">
+	<!--f=ngForm gives us access to NgForm object ang2 created for us-->
+	<!--assign local ref to form using #f=ngForm and pass ref to onSubmit-->
+	<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+		<div class="form-group">
+			<label for="content">Content</label>
+			<!--ngModel without () tells ang2 this input is registered as control of the form-->
+			<!--ang2 detect name attr to store value of input to the value we assign-->
+			<input 
+				type="text" 
+				id="content" 
+				class="form-control"
+				ngModel 
+				name="content"
+				required>
+		</div>
+		<button class="btn btn-primary" type="submit">Save</button>
+	</form>
+</div>
