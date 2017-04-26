@@ -11,6 +11,8 @@ import { AuthenticationComponent } from "./auth/authentication.component";
 import { HeaderComponent } from "./header.component";
 import { routing } from "./app.routing";
 import { LogoutComponent } from "./auth/logout.component";
+import { SignupComponent } from "./auth/signup.component";
+import { SigninComponent } from "./auth/signin.component";
 
 @NgModule({
     declarations: [ // components/directives/pipes that make up our app
@@ -21,7 +23,9 @@ import { LogoutComponent } from "./auth/logout.component";
         MessagesComponent,
         AuthenticationComponent,
         HeaderComponent,
-        LogoutComponent
+        LogoutComponent,
+        SignupComponent,
+        SigninComponent
     ],
     imports: [BrowserModule, FormsModule, routing], // built in modules we import for functionality
     bootstrap: [AppComponent] //  which component is the root component 
