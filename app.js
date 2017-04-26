@@ -37,7 +37,7 @@ app.use('/', appRoutes);// any route go through appRoutes
 
 // catch 404, any req that comes back after going through appRoutes, and forward to error handler
 app.use(function (req, res, next) {
-    return res.render('index');
+    return res.render('index'); // for a page refresh, we will go to index
 });
 
 

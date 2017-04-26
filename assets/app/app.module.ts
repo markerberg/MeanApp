@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 
 import { AppComponent } from "./app.component";
 import { MessageComponent } from "./messages/message.component";
@@ -27,7 +27,7 @@ import { SigninComponent } from "./auth/signin.component";
         SignupComponent,
         SigninComponent
     ],
-    imports: [BrowserModule, FormsModule, routing], // built in modules we import for functionality
+    imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule], // built in modules we import for functionality
     bootstrap: [AppComponent] //  which component is the root component 
 })
 export class AppModule {
