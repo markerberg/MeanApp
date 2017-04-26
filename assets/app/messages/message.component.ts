@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { Message } from "./message.model";
 
+import { Message } from "./message.model";
+import { MessageService } from "./message.service";
 
 @Component({
 	selector: 'app-message',
@@ -26,9 +27,17 @@ export class MessageComponent {
     // output creates event to be passed = eventName which is an event emitter
     // <> specify type of data being used, you can use <any> if unsure of data type
     @Output() editClicked = new EventEmitter<string>();
+
+    // inject message service to be used
+    constructor(private messageService: MessageService) {}
     
     // use editClicked eventemitter and emit a new event with arg
     onEdit() {
         this.editClicked.emit('A new value');
+    }
+
+    // use messageService method and pass to it, the message that we get passed from outside- which is the currently loaded one
+    onDelete() {
+        this.messageService.deleteMessage(this.message);
     }
 }
