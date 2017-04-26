@@ -10,6 +10,7 @@ import { MessagesComponent } from "./messages/messages.component";
 import { AuthenticationComponent } from "./auth/authentication.component";
 import { HeaderComponent } from "./header.component";
 import { routing } from "./app.routing";
+import { LogoutComponent } from "./auth/logout.component";
 
 @NgModule({
     declarations: [ // components/directives/pipes that make up our app
@@ -19,7 +20,8 @@ import { routing } from "./app.routing";
         MessageInputComponent,
         MessagesComponent,
         AuthenticationComponent,
-        HeaderComponent
+        HeaderComponent,
+        LogoutComponent
     ],
     imports: [BrowserModule, FormsModule, routing], // built in modules we import for functionality
     bootstrap: [AppComponent] //  which component is the root component 
