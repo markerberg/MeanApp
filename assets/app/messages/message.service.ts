@@ -14,6 +14,7 @@ export class MessageService{
 	// this constructor now allows us to use http service
 	constructor(private http: Http) {}
 
+	// SAVE MESSAGE
 	addMessage(message: Message) {
 		this.messages.push(message);
 		const body = JSON.stringify(message);
@@ -27,8 +28,23 @@ export class MessageService{
 			.catch((error: Response) => Observable.throw(error.json())); // extract data obj from error response
 	}
 
+	// RETURN IT 
 	getMessage() {
-		return this.messages;
+		return this.http.get('http://localhost:3000/message')
+			.map((response: Response) => {
+				// retrieve message with json response and access .obj field(routes/message)
+				const messages = response.json().obj;
+				// transform message structure to look like our message.model.ts
+				let transformedMessages: Message[] = [];
+				// loop through messages array from server, transform and push into new transformed array
+				for (let message of messages) { //forOf is es6 syntax supported by ts to loop through const messages 
+					// assign name/value based on message model
+					transformedMessages.push(new Message(message.content, 'TestName', message.id, null));
+				}
+				this.messages = transformedMessages;
+				return transformedMessages;
+			})
+			.catch((error: Response) => Observable.throw(error.json()));
 	}
 
 	deleteMessage(message: Message) {

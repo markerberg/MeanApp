@@ -23,7 +23,12 @@ export class MessageListComponent implements OnInit {
 
 	// this will run automaticall after component/props are initialized
 	ngOnInit() {
-		this.messages = this.messageService.getMessage();
+		this.messageService.getMessage()
+			.subscribe(
+				(messages: Message[]) => {
+					this.messages = messages;
+				}
+				);
 	}
 
 }
