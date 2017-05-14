@@ -35,6 +35,9 @@ export class MessageComponent {
 
     // use messageService method and pass to it, the message that we get passed from outside- which is the currently loaded one
     onDelete() {
-        this.messageService.deleteMessage(this.message);
+        this.messageService.deleteMessage(this.message)
+            .subscribe(
+                result => console.log(result)
+            );
     }
 }
