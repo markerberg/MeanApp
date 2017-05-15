@@ -14,6 +14,7 @@ import { routing } from "./app.routing";
 import { LogoutComponent } from "./auth/logout.component";
 import { SignupComponent } from "./auth/signup.component";
 import { SigninComponent } from "./auth/signin.component";
+import { AuthService } from "./auth/auth.service";
 
 @NgModule({
     declarations: [ // components/directives/pipes that make up our app
@@ -33,7 +34,8 @@ import { SigninComponent } from "./auth/signin.component";
               routing, 
               ReactiveFormsModule,
               HttpModule
-              ], // built in modules we import for functionality
+    ], // built in modules we import for functionality
+    providers: [AuthService], // what goes in here is available in whole app module/ the whole application 
     bootstrap: [AppComponent] //  which component is the root component 
 })
 export class AppModule {

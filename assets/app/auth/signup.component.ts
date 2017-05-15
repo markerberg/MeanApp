@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
+import { AuthService } from "./auth.service";
+import { User } from "./user.model";
+
 @Component({
 	selector: 'app-signup',
 	templateUrl: './signup.component.html'
@@ -8,8 +11,20 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 export class SignupComponent implements OnInit{
 	myForm: FormGroup;
 
+	constructor(private authService: AuthService) {}
+
 	onSubmit(){ 
-		console.log(this.myForm);
+		const user = new User( // pass values from the myForm fields
+			this.myForm.value.email, 
+			this.myForm.value.password,
+			this.myForm.value.firstName,
+			this.myForm.value.lastName
+		);
+		this.authService.signup(user) // signup meth return observable so we subscribe to it to send req and listen to data we get back
+			.subscribe(
+				data => console.log(data),
+				error => console.error(error)
+			);
 		this.myForm.reset(); // reset form after submission
 	}
 
