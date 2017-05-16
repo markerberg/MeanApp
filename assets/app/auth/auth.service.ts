@@ -24,4 +24,12 @@ export class AuthService {
 			.map((response: Response) => response.json()) 
 			.catch((error: Response) => Observable.throw(error.json()));;
 	}
+
+	logout() {
+		localStorage.clear();// delete userid and token
+	}
+
+	isLoggedIn(){ // check if token exists, if no token-> not logged in
+		return localStorage.getItem('token') !== null; // means we have token and return true
+	}
 }
