@@ -15,6 +15,8 @@ import { LogoutComponent } from "./auth/logout.component";
 import { SignupComponent } from "./auth/signup.component";
 import { SigninComponent } from "./auth/signin.component";
 import { AuthService } from "./auth/auth.service";
+import { ErrorComponent } from "./errors/error.component";
+import { ErrorService } from "./errors/error.service";
 
 @NgModule({
     declarations: [ // components/directives/pipes that make up our app
@@ -27,7 +29,8 @@ import { AuthService } from "./auth/auth.service";
         HeaderComponent,
         LogoutComponent,
         SignupComponent,
-        SigninComponent
+        SigninComponent,
+        ErrorComponent
     ],
     imports: [BrowserModule, 
               FormsModule, 
@@ -35,7 +38,7 @@ import { AuthService } from "./auth/auth.service";
               ReactiveFormsModule,
               HttpModule
     ], // built in modules we import for functionality
-    providers: [AuthService], // what goes in here is available in whole app module/ the whole application 
+    providers: [AuthService, ErrorService], // what goes in here is available in whole app module/ the whole application 
     bootstrap: [AppComponent] //  which component is the root component 
 })
 export class AppModule {

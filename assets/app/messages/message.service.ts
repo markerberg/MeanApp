@@ -4,6 +4,7 @@ import 'rxjs/Rx';
 import { Observable } from "rxjs";
 
 import { Message } from "./message.model";
+import { ErrorService } from "../errors/error.service";
 
 // ang2 service injector only works if theres metadata
 // we use @Injectable to be able to use service inside this service
@@ -13,7 +14,7 @@ export class MessageService{
 	messageIsEdit = new EventEmitter<Message>();
 
 	// this constructor now allows us to use http service
-	constructor(private http: Http) {}
+	constructor(private http: Http, private errorService: ErrorService) {}
 
 	// SAVE MESSAGE
 	addMessage(message: Message) {
@@ -32,7 +33,10 @@ export class MessageService{
 				return message;
 			})
 			// we return observable, map func converts to observable automatically but catch doesn't, so we call it
-			.catch((error: Response) => Observable.throw(error.json())); // extract data obj from error response
+			.catch((error: Response) => {
+				this.errorService.handledError(error.json());
+				return Observable.throw(error.json());
+			}); // extract data obj from error response
 	}
 
 	// RETURN IT 
@@ -51,7 +55,10 @@ export class MessageService{
 				this.messages = transformedMessages;
 				return transformedMessages;
 			})
-			.catch((error: Response) => Observable.throw(error.json()));
+			.catch((error: Response) => {
+				this.errorService.handledError(error.json());
+				return Observable.throw(error.json());
+			});
 	}
 
 	editMessage(message: Message) {
@@ -65,7 +72,10 @@ export class MessageService{
 		const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
 		return this.http.patch('http://localhost:3000/message/' + message.messageId + token, body, {headers: headers})
 			.map((response: Response) => response.json()) 
-			.catch((error: Response) => Observable.throw(error.json())); 
+			.catch((error: Response) => {
+				this.errorService.handledError(error.json());
+				return Observable.throw(error.json());
+			}); 
 	}
 
 	deleteMessage(message: Message) {
@@ -74,6 +84,9 @@ export class MessageService{
 		// since this returns observable, we sub inside messageComponent
 		return this.http.delete('http://localhost:3000/message/' + message.messageId + token)
 			.map((response: Response) => response.json()) 
-			.catch((error: Response) => Observable.throw(error.json())); 
+			.catch((error: Response) => {
+				this.errorService.handledError(error.json());
+				return Observable.throw(error.json());
+			}); 
 	}
 }
