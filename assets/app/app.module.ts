@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+import { ReactiveFormsModule } from '@angular/forms'; 
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from "./app.component";
-import { MessageComponent } from "./messages/message.component";
-import { MessageListComponent } from "./messages/message-list.component";
-import { MessageInputComponent } from "./messages/message-input.component";
-import { MessagesComponent } from "./messages/messages.component";
 import { AuthenticationComponent } from "./auth/authentication.component";
 import { HeaderComponent } from "./header.component";
 import { routing } from "./app.routing";
@@ -17,14 +13,11 @@ import { SigninComponent } from "./auth/signin.component";
 import { AuthService } from "./auth/auth.service";
 import { ErrorComponent } from "./errors/error.component";
 import { ErrorService } from "./errors/error.service";
+import { MessageModule } from "./messages/message.module";
 
 @NgModule({
     declarations: [ // components/directives/pipes that make up our app
         AppComponent,
-        MessageComponent,
-        MessageListComponent,
-        MessageInputComponent,
-        MessagesComponent,
         AuthenticationComponent,
         HeaderComponent,
         LogoutComponent,
@@ -33,10 +26,10 @@ import { ErrorService } from "./errors/error.service";
         ErrorComponent
     ],
     imports: [BrowserModule, 
-              FormsModule, 
               routing, 
               ReactiveFormsModule,
-              HttpModule
+              HttpModule,
+              MessageModule
     ], // built in modules we import for functionality
     providers: [AuthService, ErrorService], // what goes in here is available in whole app module/ the whole application 
     bootstrap: [AppComponent] //  which component is the root component 
