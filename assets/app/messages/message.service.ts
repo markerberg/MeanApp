@@ -27,7 +27,7 @@ export class MessageService{
 		return this.http.post('http://localhost:3000/message' + token, body, {headers: headers})
 			.map((response: Response) => {
 				var result = response.json()  // give us data attach from response in json
-				const message = new Message(result.obj.content, 'Dummy', result.obj._id, null); // created msg is stored in obj field on backend
+				const message = new Message(result.obj.content, result.obj.user.firstName, result.obj._id, result.obj.user._id); // created msg is stored in obj field on backend
 				this.messages.push(message);
 				return message;
 			})
@@ -46,7 +46,7 @@ export class MessageService{
 				// loop through messages array from server, transform and push into new transformed array
 				for (let message of messages) { //forOf is es6 syntax supported by ts to loop through const messages 
 					// assign name/value based on message model
-					transformedMessages.push(new Message(message.content, 'TestName', message._id, null));
+					transformedMessages.push(new Message(message.content, message.user.firstName, message._id, message.user._id));
 				}
 				this.messages = transformedMessages;
 				return transformedMessages;

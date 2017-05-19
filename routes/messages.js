@@ -6,7 +6,8 @@ var User = require('../models/user');
 var Message = require('../models/message');
 
 router.get('/', function(req, res, next) {
-	Message.find() // find messages with mongoose model
+	Message.find() 
+		.populate('user', 'firstName') // expand data we retrieve so each message will have user and first name
 		.exec(function(err, messages) {
 			if(err) {
 				return res.status(500).json({
