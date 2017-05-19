@@ -35,7 +35,7 @@ router.use('/', function(req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-	var decoded = jwt.decode(req.query.token);
+	var decoded = jwt.decode(req.query.token); // fetch user with decoded token
 	User.findById(decoded.user._id, function(err, user){
 			if(err) {
 				return res.status(500).json({
@@ -69,6 +69,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.patch('/:id', function(req, res, next) {
+	var decoded = jwt.decode(req.query.token);
 	// find message based on ID
 	Message.findById(req.params.id, function(err, message){
 		if (err) {
@@ -77,10 +78,16 @@ router.patch('/:id', function(req, res, next) {
 				error: err
 			}); 
 		}
-		if (!Message) { // if message not found
+		if (!message) { // if message not found
 			return res.status(500).json({
 				title: 'No message found',
 				error: {message: 'Message not found'}
+			});
+		}
+		if (message.user != decoded.user._id) { // make sure no other user can mofify the creator of this message
+			return res.status(401).json({
+				title: 'Not Authenticated',
+				error: {message: 'Users do not match'}
 			});
 		}
 		// update the message.content which is the field we're changing
@@ -101,6 +108,7 @@ router.patch('/:id', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
+	var decoded = jwt.decode(req.query.token);
 	Message.findById(req.params.id, function(err, message){
 			if (err) {
 				return res.status(500).json({
@@ -108,11 +116,17 @@ router.delete('/:id', function(req, res, next) {
 					error: err
 				}); 
 			}
-			if (!Message) {
+			if (!message) {
 				return res.status(500).json({
 					title: 'No message found',
 					error: {message: 'Message not found'}
 				});
+			}
+			if (message.user != decoded.user._id) { 
+			return res.status(401).json({
+				title: 'Not Authenticated',
+				error: {message: 'Users do not match'}
+			});
 			}
 			message.remove(function(err, result){
 			if(err) {

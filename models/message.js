@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var User = require('../user');
+var User = require('./user');
 
 var schema = new Schema({
 	content: { type: String, required: true },

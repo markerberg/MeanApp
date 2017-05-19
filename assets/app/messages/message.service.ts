@@ -19,10 +19,12 @@ export class MessageService{
 	addMessage(message: Message) {
 		const body = JSON.stringify(message);
 		const headers = new Headers({'Content-Type': 'application/json'});// change headers w/ang2
+		// if token exists, set up query string, else use empty string
+		const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
 		// .map allow us to transform data once it comes back from server
 		// we set up how data should transform here, so funcs can use this transformed format
 		// we then configure req headers to have the headers we set 
-		return this.http.post('http://localhost:3000/message', body, {headers: headers})
+		return this.http.post('http://localhost:3000/message' + token, body, {headers: headers})
 			.map((response: Response) => {
 				var result = response.json()  // give us data attach from response in json
 				const message = new Message(result.obj.content, 'Dummy', result.obj._id, null); // created msg is stored in obj field on backend
@@ -60,15 +62,17 @@ export class MessageService{
 	updateMessage(message: Message) {
 		const body = JSON.stringify(message);
 		const headers = new Headers({'Content-Type': 'application/json'});
-		return this.http.patch('http://localhost:3000/message/' + message.messageId, body, {headers: headers})
+		const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+		return this.http.patch('http://localhost:3000/message/' + message.messageId + token, body, {headers: headers})
 			.map((response: Response) => response.json()) 
 			.catch((error: Response) => Observable.throw(error.json())); 
 	}
 
 	deleteMessage(message: Message) {
 		this.messages.splice(this.messages.indexOf(message), 1);
+		const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
 		// since this returns observable, we sub inside messageComponent
-		return this.http.delete('http://localhost:3000/message/' + message.messageId)
+		return this.http.delete('http://localhost:3000/message/' + message.messageId + token)
 			.map((response: Response) => response.json()) 
 			.catch((error: Response) => Observable.throw(error.json())); 
 	}
